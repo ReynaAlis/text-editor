@@ -141,7 +141,7 @@ const TextEditor = () => {
         value={text}
         onChange={(e) => setText(e.target.value)}
         placeholder="Напишите, что вашей душе угодно..."
-        style={styles}
+        style={text ? styles : {}}
       />
     </div>
   );
