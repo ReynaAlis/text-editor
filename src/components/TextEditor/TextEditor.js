@@ -9,6 +9,9 @@ const TextEditor = () => {
     fontWeight: "normal",
     fontStyle: "normal",
     textDecoration: "none",
+    isBold: false,
+    isItalic: false,
+    isUnderline: false,
   });
 
   // Восстановление текста из localStorage
@@ -23,12 +26,25 @@ const TextEditor = () => {
   }, [text]);
 
   // Изменение стиля текста
-  const handleStyleChange = (newStyle) => {
-    setStyles((prevStyle) => ({
-      ...prevStyle,
-      ...newStyle,
-    }));
+  const handleStyleChange = (styleType) => {
+    setStyles((prevStyles) => {
+      const newStyles = { ...prevStyles };
+
+      if (styleType === "bold") {
+        newStyles.isBold = !prevStyles.isBold;
+        newStyles.fontWeight = newStyles.isBold ? "bold" : "normal";
+      } else if (styleType === "italic") {
+        newStyles.isItalic = !prevStyles.isItalic;
+        newStyles.fontStyle = newStyles.isItalic ? "italic" : "normal";
+      } else if (styleType === "underline") {
+        newStyles.isUnderline = !prevStyles.isUnderline;
+        newStyles.textDecoration = newStyles.isUnderline ? "underline" : "none";
+      }
+
+      return newStyles;
+    });
   };
+
 
   // Изменение цвета текста
   const handleColorChange = (color) => {
@@ -84,33 +100,15 @@ const TextEditor = () => {
     <div className="text-editor">
       <div className="toolbar">
         <div className="toolbar-row">
-          <button
-            onClick={() =>
-              handleStyleChange({
-                fontWeight: "bold",
-              })
-            }
-          >
-            <i className="fas fa-bold"> </i>{""}
-          </button>{" "}
-          <button
-            onClick={() =>
-              handleStyleChange({
-                fontStyle: "italic",
-              })
-            }
-          >
-            <i className="fas fa-italic"> </i>{""}
-          </button>{" "}
-          <button
-            onClick={() =>
-              handleStyleChange({
-                textDecoration: "underline",
-              })
-            }
-          >
-            <i className="fas fa-underline"> </i>{""}
-          </button>{""}
+          <button onClick={() => handleStyleChange("bold")}>
+            <i className={`fas fa-bold ${styles.isBold ? "active" : ""}`}></i>
+          </button>
+          <button onClick={() => handleStyleChange("italic")}>
+            <i className={`fas fa-italic ${styles.isItalic ? "active" : ""}`}></i>
+          </button>
+          <button onClick={() => handleStyleChange("underline")}>
+            <i className={`fas fa-underline ${styles.isUnderline ? "active" : ""}`}></i>
+          </button>
           <select onChange={(e) => handleColorChange(e.target.value)}>
             <option value="black"> Black </option>{""}
             <option value="red"> Red </option>{""}

@@ -45,6 +45,10 @@ textarea:focus {
     transition: outline 0.2s ease-in-out;
 }
 
+button .active {
+    color: #000;
+}
+
 textarea {
     width: calc(100% - 30px);
     max-width: 100%;
